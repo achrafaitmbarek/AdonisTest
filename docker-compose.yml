@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  node:
+    build: .
+    container_name: adonis_testing_node
+    entrypoint: "tail -f /dev/null"
+    labels:
+      caddy: adonis_testing_lidl
+      cadd.tls: internal
+      cadd.reverse_proxy: "{{upstreams 33333}}"
+    networks:
+      - default
+      - global_reverse_proxy
+    volumes:
+      - ./:/app
+
+networks:
+  default:
+    driver: bridge
+  global_reverse_proxy:
+    external: true
+
